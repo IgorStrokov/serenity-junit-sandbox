@@ -18,7 +18,6 @@ import starter.utils.ResponseUtil;
 
 
 public class WeatherApiSteps {
-    public ResponseUtil responseUtil;
 
 
     @Step("verify user can get weather by city id {0}")
@@ -30,14 +29,14 @@ public class WeatherApiSteps {
     @Step("verify weather in {0} is {1}")
     public void verifyWeatherInCityIs(String city, String weather) {
         Response response = getWeatherByCityName(city);
-        ForecastDTO actualForecastDTO = responseUtil.parseJson(response);
+        ForecastDTO actualForecastDTO = ResponseUtil.parseJson(response);
         assertEquals(weather, Arrays.asList(actualForecastDTO.getWeatherDTO()).get(0).getMain());
     }
 
     @Step("verify weather in {0} is {1}")
     public void verifyDetailedWeatherInCityIs(String city, String weather) {
         Response response = getWeatherByCityName(city);
-        ForecastDTO actualForecastDTO = responseUtil.parseJson(response);
+        ForecastDTO actualForecastDTO = ResponseUtil.parseJson(response);
         assertEquals(weather, Arrays.asList(actualForecastDTO.getWeatherDTO()).get(0).getDescription());
     }
 
@@ -64,7 +63,7 @@ public class WeatherApiSteps {
     @Step("#verify country of the city is {0}")
     public void verifyCountryOfTheCityIs(String country) {
         Response response = sessionVariableCalled(RESPONSE);
-        ForecastDTO actualForecastDTO = responseUtil.parseJson(response);
+        ForecastDTO actualForecastDTO = ResponseUtil.parseJson(response);
         assertEquals(country, actualForecastDTO.getSysDTO().getCountry());
     }
 }

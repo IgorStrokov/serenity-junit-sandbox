@@ -11,7 +11,7 @@
     <name>Sample Serenity BDD project using JUnit</name>
 
     <properties>
-        <aspectj.version>1.8.10</aspectj.version>
+        <aspectj.version>1.9.6</aspectj.version>
         <serenity.version>2.2.8</serenity.version>
         <serenity.maven.version>2.2.8</serenity.maven.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
