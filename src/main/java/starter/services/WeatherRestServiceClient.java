@@ -1,36 +1,21 @@
 package starter.services;
 
-import static starter.utils.ConfigProvider.getRequestSpec;
+import org.apache.groovy.util.Maps;
+import starter.utils.RestResponse;
 
-import io.restassured.response.Response;
-import java.util.HashMap;
-import java.util.Map;
-
-public class WeatherRestServiceClient {
+public class WeatherRestServiceClient extends RestService{
     private static final String OPENWEATHER_ENDPOINT = "/data/2.5/weather";
 
-    public static Response getWeatherByCityName(String name) {
-        return getRequestSpec()
-              .param("q", name)
-              .when()
-              .get(OPENWEATHER_ENDPOINT);
+    public  RestResponse getWeatherByCityName(String name) {
+        return get(OPENWEATHER_ENDPOINT, Maps.of("q", name));
     }
 
-    public static Response getWeatherByCityNameInForeignLanguage(String language, String name) {
-        Map<String, String> params = new HashMap<>();
-        params.put("lang", language);
-        params.put("q", name);
-        return getRequestSpec()
-              .params(params)
-              .when()
-              .get(OPENWEATHER_ENDPOINT);
+    public  RestResponse getWeatherByCityNameInForeignLanguage(String language, String name) {
+        return get(OPENWEATHER_ENDPOINT, Maps.of("lang", language, "q", name));
     }
 
-    public static Response getWeatherByCityId(int cityId) {
-        return getRequestSpec()
-              .param("id", cityId)
-              .when()
-              .get(OPENWEATHER_ENDPOINT);
+    public  RestResponse getWeatherByCityId(int cityId) {
+        return get(OPENWEATHER_ENDPOINT, Maps.of("id", cityId));
     }
 
 }
