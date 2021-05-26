@@ -58,7 +58,7 @@ public class WeatherApiSteps {
     @Step("#verify status code is {0}")
     public void verifyStatusCodeIs(int statusCode) {
         RestResponse response = sessionVariableCalled(RESPONSE);
-          assertEquals(response.getStatusCode(), statusCode);
+          assertEquals(statusCode, response.getStatusCode());
     }
 
     @SneakyThrows

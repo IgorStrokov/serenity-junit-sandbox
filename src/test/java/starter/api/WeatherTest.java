@@ -1,39 +1,41 @@
 package starter.api;
 
-import static org.apache.http.HttpStatus.SC_OK;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Arrays;
-import javax.json.JsonObject;
+import lombok.SneakyThrows;
+import lombok.extern.log4j.Log4j2;
 import net.joshka.junit.json.params.JsonFileSource;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Steps;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.runner.RunWith;
 import starter.dto.ForecastDTO;
+import starter.services.WeatherRestServiceClient;
 import starter.steps.WeatherApiSteps;
 
+import javax.json.JsonObject;
+import java.util.Arrays;
+
+import static org.apache.http.HttpStatus.SC_OK;
+
+@Log4j2
 @RunWith(SerenityRunner.class)
 public class WeatherTest {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Steps
-    WeatherApiSteps weatherApiSteps = new WeatherApiSteps();
+    private WeatherApiSteps weatherApiSteps = new WeatherApiSteps(new WeatherRestServiceClient());
 
     @Test
     public void verifyUserCanGetWeatherByCityId() {
         weatherApiSteps.verifyUserCanGetWeatherByCityIdTest(2172797);
     }
 
-    @JsonIgnoreProperties
+    @SneakyThrows
     @ParameterizedTest
     @JsonFileSource(resources = "/expected1.json")
-    public void verifyUserCanGetWeatherByCityNamesTest(JsonObject jsonObject)
-          throws JsonProcessingException {
+    public void verifyUserCanGetWeatherByCityNamesTest(JsonObject jsonObject) {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             ForecastDTO forecastDTO = objectMapper.readValue(jsonObject.toString(), ForecastDTO.class);
         // Given
