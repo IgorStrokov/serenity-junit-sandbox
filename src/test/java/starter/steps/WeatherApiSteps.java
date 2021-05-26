@@ -1,5 +1,6 @@
 package starter.steps;
 
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import net.thucydides.core.annotations.Step;
 import starter.dto.ForecastDTO;
@@ -10,19 +11,20 @@ import java.util.Arrays;
 
 import static net.serenitybdd.core.Serenity.sessionVariableCalled;
 import static net.serenitybdd.core.Serenity.setSessionVariable;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.junit.Assert.assertEquals;
 import static starter.enums.Context.RESPONSE;
 import static starter.enums.Context.RESPONSE_DTO;
 import static starter.enums.Languages.getCodeByLanguage;
 
-
+@AllArgsConstructor
 public class WeatherApiSteps {
     private WeatherRestServiceClient weatherRestServiceClient;
 
     @Step("verify user can get weather by city id {0}")
     public void verifyUserCanGetWeatherByCityIdTest(int id) {
         RestResponse response = weatherRestServiceClient.getWeatherByCityId(id);
-        assertEquals(response.getStatusCode(), 200);
+        assertEquals(response.getStatusCode(), SC_OK);
     }
 
     @Step("verify weather in {0} is {1}")
